@@ -552,10 +552,7 @@ async def health_check():
 async def search_with_openrouter_ai(request: Request):
     """Enhanced search endpoint with OpenRouter AI analysis"""
     query = request.query_params.get("query", "")
-    
-    if not query or len(query.strip()) < 1:
-        raise HTTPException(status_code=400, detail="Query too short (minimum 3 characters)")
-    
+          
     logger.info(f"🔍 OpenRouter AI-enhanced search request: '{query}'")
     
     try:
