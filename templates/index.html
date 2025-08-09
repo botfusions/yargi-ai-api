@@ -75,6 +75,22 @@
                 required
                 minlength="3"
             >
+            <select 
+                id="courtSelect" 
+                class="search-input"
+                style="flex: 0 0 200px; margin-left: 10px;"
+            >
+                <option value="all">Tüm Mahkemeler</option>
+                <option value="yargitay">Yargıtay</option>
+                <option value="danistay">Danıştay</option>
+                <option value="anayasa">Anayasa Mahkemesi</option>
+                <option value="emsal">Emsal Kararlar</option>
+                <option value="uyusmazlik">Uyuşmazlık Mahkemesi</option>
+                <option value="kvkk">KVKK</option>
+                <option value="bddk">BDDK</option>
+                <option value="rekabet">Rekabet Kurumu</option>
+                <option value="sayistay">Sayıştay</option>
+            </select>
             <button type="submit" class="search-btn" id="searchBtn">
                 🔍 Ara
             </button>
@@ -99,7 +115,7 @@
             try {
                 resultsDiv.innerHTML = '<div class="loading">🔍 Aranıyor...</div>';
                 
-                const response = await fetch(`/api/search-simple?query=${encodeURIComponent(query)}`, {
+                const response = await fetch(`/api/search-advanced?query=${encodeURIComponent(query)}&courts=${encodeURIComponent(document.getElementById("courtSelect").value)}`, {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json'

@@ -1,6 +1,6 @@
 import os
 import logging
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -47,6 +47,22 @@ logger.info(f"📡 MCP Server URL: {MCP_SERVER_URL}")
 logger.info(f"🧠 LLM Model: {OPENROUTER_MODEL}")
 logger.info(f"🔑 LLM Enabled: {LLM_ENABLED}")
 logger.info(f"🔄 Fallback Mode: {FALLBACK_MODE}")
+
+# Court Types Configuration
+COURT_TYPES = {
+    "all": "Tüm Mahkemeler",
+    "yargitay": "Yargıtay",
+    "danistay": "Danıştay",
+    "anayasa": "Anayasa Mahkemesi",
+    "emsal": "Emsal Kararlar",
+    "uyusmazlik": "Uyuşmazlık Mahkemesi",
+    "kvkk": "KVKK",
+    "bddk": "BDDK",
+    "rekabet": "Rekabet Kurumu",
+    "sayistay": "Sayıştay"
+}
+
+logger.info(f"🏛️ Court Types Loaded: {len(COURT_TYPES)} courts")
 
 class OpenRouterLegalAI:
     """OpenRouter LLM analyzer for legal documents"""
@@ -556,6 +572,89 @@ async def search_with_openrouter_ai(request: Request):
     except Exception as e:
         logger.error(f"❌ OpenRouter AI-enhanced search failed: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
+
+
+@app.get("/api/courts")
+async def get_available_courts():
+    """Get list of available courts for filtering"""
+    try:
+        return {
+            "status": "success",
+            "courts": COURT_TYPES,
+            "total": len(COURT_TYPES),
+            "default": "all",
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"❌ Courts API error: {e}")
+        return {
+            "status": "error",
+            "message": "Courts listesi alınamadı",
+            "courts": {"all": "Tüm Mahkemeler"},
+            "total": 1,
+            "default": "all"
+        }
+
+@app.post("/api/search-advanced")
+async def search_advanced(
+    query: str = Form(...),
+    courts: str = Form("all"),
+    limit: int = Form(10)
+):
+    """Advanced search with court filtering"""
+    try:
+        selected_courts = [c.strip() for c in courts.split(",") if c.strip()]
+        if not selected_courts or "all" in selected_courts:
+            selected_courts = ["all"]
+        
+        logger.info(f"🔍 Advanced search: {query} in courts: {selected_courts}")
+        
+        mcp_client = EnhancedMCPClient()
+        
+        if FALLBACK_MODE:
+            results = await get_fallback_results(query)
+        else:
+            results = await mcp_client.search_legal_database(query)
+        
+        return {
+            "status": "success",
+            "results": results.get("results", []),
+            "query": query,
+            "courts_searched": selected_courts,
+            "total": len(results.get("results", [])),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Advanced search error: {e}")
+        return {
+            "status": "error",
+            "message": f"Arama hatası: {str(e)}",
+            "results": [],
+            "query": query
+        }
+
+def determine_court_type(court_name: str) -> str:
+    """Determine court type from court name"""
+    court_lower = court_name.lower()
+    if "yargıtay" in court_lower:
+        return "yargitay"
+    elif "danıştay" in court_lower:
+        return "danistay"
+    elif "anayasa" in court_lower:
+        return "anayasa"
+    elif "emsal" in court_lower:
+        return "emsal"
+    elif "kvkk" in court_lower:
+        return "kvkk"
+    elif "bddk" in court_lower:
+        return "bddk"
+    elif "rekabet" in court_lower:
+        return "rekabet"
+    elif "sayıştay" in court_lower:
+        return "sayistay"
+    else:
+        return "all"
 
 @app.on_event("shutdown")
 async def shutdown_event():
