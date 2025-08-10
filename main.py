@@ -311,11 +311,11 @@ class EnhancedMCPClient:
             
             # Test multiple endpoints for comprehensive status
             endpoints_to_test = [
-                ("/health", "Health Check"),
-                ("/status", "Status & Tools List"),
-                ("/api/tools", "REST API Tools"),
-                ("/", "Root Endpoint")
-            ]
+    ("/health", "Health Check"),
+    ("/health", "Status & Tools List"),
+    ("/api/courts", "REST API Courts"),
+    ("/", "Root Endpoint")
+]
             
             for endpoint, description in endpoints_to_test:
                 try:
