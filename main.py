@@ -36,7 +36,7 @@ app.add_middleware(
 templates = Jinja2Templates(directory="templates")
 
 # Environment configuration
-MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "https://yargi-mcp.botfusions.com")
+MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "http://localhost:8001")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
 FALLBACK_MODE = os.getenv("MCP_FALLBACK_MODE", "true").lower() == "true"
