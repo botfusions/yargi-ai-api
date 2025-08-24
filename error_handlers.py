@@ -9,13 +9,12 @@ import logging
 from datetime import datetime
 from typing import Dict, Any
 
-# Configure logging
+# Configure logging (console only for Docker)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler("turkish_legal_api.log", encoding="utf-8")
+        logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
