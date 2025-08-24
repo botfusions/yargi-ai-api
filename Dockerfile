@@ -19,12 +19,12 @@ ENV PORT=8001
 ENV HOST=0.0.0.0
 ENV PYTHONPATH=/app
 
-# Expose port - environment'tan gelir
-EXPOSE $PORT
+# Expose port - sabit port
+EXPOSE 8001
 
-# Health check - geçmişte çalışan method
+# Health check - sabit port kullan
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:$PORT/health || exit 1
+    CMD curl -f http://localhost:8001/health || exit 1
 
 # ✅ Flexible startup - PORT env'den gelir
 CMD uvicorn main:app --host $HOST --port $PORT --workers 1
