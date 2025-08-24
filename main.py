@@ -6,9 +6,9 @@ import uvicorn
 from typing import Optional
 from datetime import datetime
 
-# Import MCP endpoint routers
-from yargi_endpoints import router as yargi_router
-from mevzuat_endpoints import router as mevzuat_router
+# Import endpoint routers (MCP integration disabled for now)
+# from yargi_endpoints import router as yargi_router
+# from mevzuat_endpoints import router as mevzuat_router
 
 # Import error handlers
 from error_handlers import setup_error_handlers
@@ -53,9 +53,9 @@ app = FastAPI(
     },
 )
 
-# Include MCP endpoint routers
-app.include_router(yargi_router)
-app.include_router(mevzuat_router)
+# Include endpoint routers (MCP integration disabled for now)
+# app.include_router(yargi_router)
+# app.include_router(mevzuat_router)
 
 # Setup error handlers and middleware
 setup_error_handlers(app)
