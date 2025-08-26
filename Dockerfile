@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
-COPY simple_requirements.txt requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy simple main file
-COPY simple_main.py main.py
+# Copy application code
+COPY main.py .
 
 # Environment variables
 ENV PORT=8001
