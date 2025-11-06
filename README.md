@@ -1,46 +1,78 @@
 # Yargı AI API
 
-OpenRouter LLM-powered Turkish Legal Search API with MCP integration.
+Basit, hızlı ve kolay Turkish Legal API - Windows'ta çalışır!
 
-## Features
+## ✨ Özellikler
 
-- 🤖 **Multiple AI Models**: Claude 3.5 Sonnet, GPT-4o, Gemini Pro, Llama 3.1, Mistral
-- ⚖️ **Turkish Legal Database**: 21 MCP tools for comprehensive legal search
-- 🔧 **Flexible Model Selection**: Switch between models via API parameter
-- 📊 **Token Usage Tracking**: Detailed cost monitoring
-- 🔄 **Fallback System**: Works even when external services are down
+- ⚡ **Hızlı Kurulum**: 3 dakikada çalışır
+- 🪟 **Windows Uyumlu**: PowerShell ile kolay kurulum
+- 🔧 **Basit API**: FastAPI ile hazır endpoint'ler
+- 📚 **Interaktif Dokümantasyon**: Otomatik API docs
+- 🚀 **Genişletilebilir**: Kendi endpoint'lerinizi ekleyin
 
-## Quick Start
+## 🚀 Windows'ta Hızlı Başlangıç
 
-### Local Development
+### 1️⃣ Python Kurulumu (Eğer yoksa)
+
+- [Python 3.8+](https://www.python.org/downloads/) indirin ve kurun
+- Kurulum sırasında **"Add Python to PATH"** seçeneğini işaretleyin
+
+### 2️⃣ Projeyi İndirin
+
+**Yöntem A: Git ile**
+```powershell
+git clone https://github.com/botfusions/yargi-ai-api.git
+cd yargi-ai-api
+```
+
+**Yöntem B: ZIP ile**
+1. GitHub'dan ZIP olarak indirin
+2. `yargi-ai-api` klasörüne çıkarın
+3. PowerShell'de klasöre gidin:
+```powershell
+cd C:\Users\user\Downloads\yargi-ai-api
+```
+
+### 3️⃣ Bağımlılıkları Kurun
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 4️⃣ API'yi Başlatın
+
+```powershell
+python main.py
+```
+
+### 5️⃣ Tarayıcınızda Açın
+
+- **Ana Sayfa**: http://localhost:8001
+- **API Docs**: http://localhost:8001/docs
+- **Health Check**: http://localhost:8001/health
+
+## 🐧 Linux/Mac Kurulum
 
 ```bash
 # Clone repository
-git clone <your-repo-url>
+git clone https://github.com/botfusions/yargi-ai-api.git
 cd yargi-ai-api
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Set environment variables
-export OPENROUTER_API_KEY=your_key_here
-export OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
-
 # Run server
 python main.py
 ```
 
-### Docker
+## 🐳 Docker
 
 ```bash
 # Build image
 docker build -t yargi-ai-api .
 
 # Run container
-docker run -p 8001:8001 \
-  -e OPENROUTER_API_KEY=your_key_here \
-  -e OPENROUTER_MODEL=anthropic/claude-3.5-sonnet \
-  yargi-ai-api
+docker run -p 8001:8001 yargi-ai-api
 ```
 
 ## API Endpoints
